@@ -1,4 +1,4 @@
-import { isEmpty, first } from "lodash";
+import { first, isEmpty } from "lodash";
 import { getRepository } from "typeorm";
 import { User } from "../../model/entity/User";
 import { UserData } from "./types";
@@ -25,7 +25,6 @@ export class UserLogic {
 
   public async authenticateUser(data: UserData): Promise<string> {
     const user = await this.userRepo.find(data);
-
 
     return isEmpty(user) ? undefined : first(user);
   }

@@ -31,10 +31,7 @@ export async function runServer(port: number) {
     asyncHandler(userControllers.registerUserController)
   );
 
-  router.post(
-      "/login",
-      asyncHandler(userControllers.loginController)
-  );
+  router.post("/login", asyncHandler(userControllers.loginController));
 
   router.use(errorHandlerMiddleware);
 
