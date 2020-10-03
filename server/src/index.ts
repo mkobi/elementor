@@ -1,6 +1,11 @@
 import settings from "./config/settings";
-import { runServer } from "./server";
+import { initDatabase, runServer } from "./server";
 
 const { port } = settings;
 
-runServer(port);
+async function run() {
+  await initDatabase();
+  runServer(port);
+}
+
+run();

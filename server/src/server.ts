@@ -1,16 +1,37 @@
-import bodyParser from "body-parser";
 import express from "express";
+import bodyParser from "body-parser";
+import { Router } from "express-serve-static-core";
+import _ from "lodash";
+import { createConnection } from "typeorm";
+import settings from "./config/settings";
+import { userControllers } from "./controllers";
+import { asyncHandler } from "./handlers/asyncHandler";
+import { contextCreator } from "./middlewares/contextCreator";
+import { errorHandlerMiddleware } from "./middlewares/errorHandler";
+
+export async function initDatabase() {
+  const dbConf = _.extend(settings.db);
+
+  return createConnection({
+    ...dbConf
+  }).catch(error => {
+    console.error("Failed to connect to MySql: ", error);
+    process.exit(1);
+  });
+}
 
 export async function runServer(port: number) {
   const app = express();
   app.use(bodyParser.json());
-  const router = express.Router();
+  const router: Router = express.Router();
+  router.use(contextCreator);
 
-  router.route("/test").post((req, res) => {
-    const { body } = req;
-    console.log("body: ", body);
-    return res.send({ success: true });
-  });
+  router.post(
+    "/register",
+    asyncHandler(userControllers.registerUserController)
+  );
+
+  router.use(errorHandlerMiddleware);
 
   app.use("/", router);
   app.listen(port, () => {
