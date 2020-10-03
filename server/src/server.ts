@@ -32,6 +32,7 @@ export async function runServer(port: number) {
   );
 
   router.post("/login", asyncHandler(userControllers.loginController));
+  router.get("/getUserData/:id", asyncHandler(userControllers.getUserController));
 
   router.use(errorHandlerMiddleware);
 
