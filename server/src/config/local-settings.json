@@ -1,0 +1,21 @@
+{
+  "db": {
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",
+    "database": "mysql",
+    "synchronize": false,
+    "logging": true,
+    "entities": ["model/entity/*{.ts,.js}"],
+    "migrations": ["model/migration/*{.ts,.js}"],
+    "subscribers": ["model/subscriber/*{.ts,.js}"],
+    "migrationsTableName": "migrations",
+    "cli": {
+      "entitiesDir": "model/entity",
+      "migrationsDir": "model/migration",
+      "subscribersDir": "model/subscriber"
+    }
+  },
+  "port": 80
+}

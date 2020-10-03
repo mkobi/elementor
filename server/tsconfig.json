@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "build",
+    "rootDir": "src",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "sourceRoot": "src",
+    "preserveSymlinks": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "**/*.test.ts", "**/__tests__", "**/__mocks__"],
+  "include": ["src/**/*.json", "src/**/*.ts", "src/**/*.tsx"]
+}

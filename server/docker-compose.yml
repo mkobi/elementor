@@ -1,0 +1,57 @@
+version: "3.4"
+
+x-volumes:
+  # services volume mapping
+  &volumes-common
+  - ./src:/server/src:delegated
+
+x-environment: &environment-common
+  APP_ENV: dev
+  NODE_ENV: development
+  db__host: mysql
+  db__user: root
+  db__username: root
+  db__database: mysql
+  db__password: example
+  db__port: 3306
+  port: 80
+
+x-service-common: &service-common
+  volumes: *volumes-common
+  environment: *environment-common
+  command:
+    ["ts-node-dev", "--transpile-only", "--inspect=0.0.0.0:9229", "index"]
+  entrypoint: ["/entrypoint-dev.sh"]
+  restart: on-failure
+
+x-build-common: &build-common
+  context: "."
+  args:
+    APP_ROOT_PATH: "src"
+    NODE_ENV: development
+
+services:
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8765:8080
+
+  elementor_server:
+    <<: *service-common
+    build:
+      <<: *build-common
+      dockerfile: "Dockerfile"
+    ports:
+      - "5050:80"
+      - "15000:9229" #debug
+

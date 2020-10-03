@@ -1,0 +1,51 @@
+{
+  "name": "elementor-server",
+  "private": true,
+  "devDependencies": {
+    "@types/lodash": "^4.14.137",
+    "@types/node": "^13.1.8",
+    "jest": "^24.9.0",
+    "jest-junit": "^10.0.0",
+    "ts-jest": "^24.3.0",
+    "ts-node": "^8.6.2",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "yaml": "^1.9.2",
+    "yamljs": "^0.3.0"
+  },
+  "dependencies": {
+    "@types/js-yaml": "^3.12.1",
+    "express": "^4.17.1",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.15",
+    "mysql": "^2.18.1",
+    "nconf": "^0.10.0",
+    "prettier": "^1.19.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-etc": "^1.10.0",
+    "typeorm": "^0.2.28",
+    "typescript": "^3.7.2"
+  },
+  "scripts": {
+    "up": "docker-compose up -d",
+    "down": "docker-compose down",
+    "start": "cd src && ts-node-dev   --transpile-only --inspect=0.0.0.0:9229 index.ts",
+    "typeorm:cli": "ts-node ../node_modules/.bin/typeorm -f ormconfig.js",
+    "create-migration": "cd src && yarn typeorm:cli 'migration:create' -d 'src/model/migration'",
+    "run-migrations": "cd src && yarn typeorm:cli 'migration:run'",
+    "run-migrations-down": "cd src && yarn typeorm:cli 'migration:revert'",
+    "seed": "cd src && ts-node model/seed",
+    "clean-build-all": "lerna exec -- rm -rf build",
+    "clean-node-modules": "rm -rf node_modules",
+    "prettier": "prettier --check '**/*.ts'",
+    "check-standards": "yarn lint && yarn prettier",
+    "fix-prettier": "prettier --write '**/*.ts'",
+    "start:prod": "cd build && node index",
+    "tsc": "if test \"$NODE_ENV\" = \"production\" ; then tsc ; fi ",
+    "lint": "tslint --project '.'",
+    "fix-lint": "tslint --fix --project '.'",
+    "fix-standards": "yarn fix-prettier && yarn fix-lint",
+    "test-ci": "jest --runInBand --ci --passWithNoTests",
+    "test": "if test \"$CI\" ; then yarn test-ci ; else jest; fi"
+  }
+}
