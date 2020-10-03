@@ -1,6 +1,7 @@
-import { isEmpty } from "lodash";
+import { isEmpty, first } from "lodash";
 import { getRepository } from "typeorm";
 import { User } from "../../model/entity/User";
+import { UserData } from "./types";
 
 export class UserLogic {
   private userRepo;
@@ -9,8 +10,8 @@ export class UserLogic {
     this.userRepo = getRepository(User);
   }
 
-  public async registerUser(userData) {
-    const { username } = userData;
+  public async registerUser(data: UserData) {
+    const { username } = data;
     const isUsernameAvailable = await this.isUsernameAvailable(username);
 
     if (!isUsernameAvailable) {
@@ -19,7 +20,14 @@ export class UserLogic {
       );
     }
 
-    this.userRepo.save(userData);
+    this.userRepo.save(data);
+  }
+
+  public async authenticateUser(data: UserData): Promise<string> {
+    const user = await this.userRepo.find(data);
+
+
+    return isEmpty(user) ? undefined : first(user);
   }
 
   private async isUsernameAvailable(username) {

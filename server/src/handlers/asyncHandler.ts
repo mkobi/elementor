@@ -5,11 +5,6 @@ import {
   Query,
   Response
 } from "express-serve-static-core";
-import { Logic } from "../logic";
-
-export interface RequestContext {
-  logic: Logic;
-}
 
 export const SUCCESS_MESSAGE = { success: true };
 

@@ -1,5 +1,5 @@
-import express from "express";
 import bodyParser from "body-parser";
+import express from "express";
 import { Router } from "express-serve-static-core";
 import _ from "lodash";
 import { createConnection } from "typeorm";
@@ -29,6 +29,11 @@ export async function runServer(port: number) {
   router.post(
     "/register",
     asyncHandler(userControllers.registerUserController)
+  );
+
+  router.post(
+      "/login",
+      asyncHandler(userControllers.loginController)
   );
 
   router.use(errorHandlerMiddleware);
