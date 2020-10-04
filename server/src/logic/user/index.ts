@@ -55,6 +55,7 @@ export class UserLogic {
       ? this.sessionRepo.update(sessionId, { isOnline: false })
       : this.sessionRepo.update({ userId }, { isOnline: false });
   }
+
   private async saveUserSession(data: AuthenticateUserInput): Promise<void> {
     const {
       user,

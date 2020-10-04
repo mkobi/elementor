@@ -9,7 +9,9 @@ import {
 } from "typeorm";
 import { Session } from "./Session";
 
-@Entity({ name: "users" })
+export const USERS_TABLE_NAME = "users";
+
+@Entity({ name: USERS_TABLE_NAME })
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   public id: string;
