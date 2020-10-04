@@ -42,7 +42,10 @@ export class UserLogic {
 
   public async getOnlineUsers() {
     return this.sessionRepo
-      .find({ isOnline: true, relations: ["user"] })
+      .createQueryBuilder("session")
+      .where({ isOnline: true })
+      .leftJoinAndSelect("session.user", "user")
+      .getMany()
       .then(results => ({
         onlineUsers: results.map(onlineUser => onlineUser.user?.username)
       }));
