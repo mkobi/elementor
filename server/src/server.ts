@@ -35,9 +35,10 @@ export async function runServer(port: number) {
   );
 
   router.post("/login", asyncHandler(userControllers.loginController));
+
   router.get(
-    "/getUserData/:id",
-    asyncHandler(userControllers.getUserController)
+    "/getSessionData/:id",
+    asyncHandler(userControllers.getSessionController)
   );
 
   router.get(

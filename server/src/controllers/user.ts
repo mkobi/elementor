@@ -33,14 +33,14 @@ export const loginController: RequestHandler = async (req) => {
   };
 };
 
-export const getUserController: RequestHandler = async (req) => {
+export const getSessionController: RequestHandler = async (req) => {
   const { context } = req.app.locals;
   const { logic } = context;
   const { params } = req;
-  const result = await logic.user.authenticateUser(params);
+  const result = await logic.user.getSessionData(params);
 
   if (isEmpty(result)) {
-    throw new BadRequest("No matching user for this id.");
+    throw new BadRequest("No record found.");
   }
 
   const { id, ...rest } = result;

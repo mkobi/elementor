@@ -14,3 +14,7 @@ export interface LogoutUserInput {
   userId: string;
   sessionId?: string;
 }
+
+export interface SessionDataInput {
+  id?: string;
+}

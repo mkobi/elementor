@@ -2,7 +2,12 @@ import { first, isEmpty, omit } from "lodash";
 import { getRepository } from "typeorm";
 import { Session } from "../../model/entity/Session";
 import { User } from "../../model/entity/User";
-import { AuthenticateUserInput, LogoutUserInput, UserInput } from "./types";
+import {
+  AuthenticateUserInput,
+  LogoutUserInput,
+  SessionDataInput,
+  UserInput,
+} from "./types";
 
 export class UserLogic {
   private userRepo;
@@ -43,6 +48,28 @@ export class UserLogic {
     return { user: authenticatedUser, session: sessionRecord };
   }
 
+  public async getSessionData(data: SessionDataInput) {
+    const { id } = data;
+
+    const result = await this.sessionRepo
+      .createQueryBuilder("session")
+      .where({ id })
+      .leftJoinAndSelect("session.user", "user")
+      .getOne();
+
+    const sessions = await this.userRepo
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.sessions", "session")
+      .getMany();
+
+    if (isEmpty(result)) {
+      return undefined;
+    }
+
+    const formattedResult = this.extractSessionData(result);
+    return { ...formattedResult, sessionsCount: sessions.length };
+  }
+
   public async getOnlineUsers() {
     return this.sessionRepo
       .createQueryBuilder("session")
@@ -51,6 +78,7 @@ export class UserLogic {
       .getMany()
       .then((results) => ({
         onlineUsers: results.map((onlineUser) => ({
+          sessionId: onlineUser.id,
           ip: onlineUser.ip,
           sessionStartTime: onlineUser.createdAt,
           username: onlineUser.user?.username,
@@ -80,6 +108,12 @@ export class UserLogic {
     };
 
     return this.sessionRepo.save(session);
+  }
+
+  private extractSessionData(sessionData) {
+    const { user, userAgent } = sessionData;
+
+    return { userAgent, registrationTime: user?.createdAt };
   }
 
   private async isUsernameAvailable(username) {

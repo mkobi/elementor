@@ -32,8 +32,8 @@ export async function onlineUsers() {
   });
 }
 
-export async function getUserData(userId: string) {
-  return axios.get(`${SERVER_URL}/getUserData/${userId}`, {
+export async function getUserData(sessionId: string) {
+  return axios.get(`${SERVER_URL}/getSessionData/${sessionId}`, {
     validateStatus: (status) => status === 200,
     headers: HEADERS,
   });
