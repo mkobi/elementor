@@ -13,6 +13,7 @@
     "yamljs": "^0.3.0"
   },
   "dependencies": {
+    "@types/express-serve-static-core": "^4.17.13",
     "@types/js-yaml": "^3.12.1",
     "express": "^4.17.1",
     "http-status": "^1.4.2",
