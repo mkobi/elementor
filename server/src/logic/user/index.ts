@@ -1,4 +1,4 @@
-import { first, isEmpty } from "lodash";
+import { first, isEmpty, omit } from "lodash";
 import { getRepository } from "typeorm";
 import { Session } from "../../model/entity/Session";
 import { User } from "../../model/entity/User";
@@ -35,9 +35,12 @@ export class UserLogic {
     }
 
     const authenticatedUser: User = first(result);
-    this.saveUserSession({ user: authenticatedUser, sessionData });
+    const sessionRecord = await this.saveUserSession({
+      user: authenticatedUser,
+      sessionData,
+    });
 
-    return isEmpty(result) ? undefined : authenticatedUser;
+    return { user: authenticatedUser, session: sessionRecord };
   }
 
   public async getOnlineUsers() {
@@ -46,8 +49,12 @@ export class UserLogic {
       .where({ isOnline: true })
       .leftJoinAndSelect("session.user", "user")
       .getMany()
-      .then(results => ({
-        onlineUsers: results.map(onlineUser => onlineUser.user?.username)
+      .then((results) => ({
+        onlineUsers: results.map((onlineUser) => ({
+          ip: onlineUser.ip,
+          sessionStartTime: onlineUser.createdAt,
+          username: onlineUser.user?.username,
+        })),
       }));
   }
 
@@ -62,20 +69,20 @@ export class UserLogic {
   private async saveUserSession(data: AuthenticateUserInput): Promise<void> {
     const {
       user,
-      sessionData: { ip, userAgent }
+      sessionData: { ip, userAgent },
     } = data;
 
     const session = {
       ip,
       userAgent,
       isOnline: true,
-      user
+      user,
     };
 
     return this.sessionRepo.save(session);
   }
 
   private async isUsernameAvailable(username) {
-    return this.userRepo.find({ username }).then(result => isEmpty(result));
+    return this.userRepo.find({ username }).then((result) => isEmpty(result));
   }
 }

@@ -2,7 +2,7 @@ import { isEmpty } from "lodash";
 import { RequestHandler } from "../handlers/asyncHandler";
 import { BadRequest } from "../middlewares/errorHandler";
 
-export const registerUserController: RequestHandler = async req => {
+export const registerUserController: RequestHandler = async (req) => {
   const { context } = req.app.locals;
   const { logic } = context;
   const { body } = req;
@@ -10,7 +10,7 @@ export const registerUserController: RequestHandler = async req => {
   return logic.user.registerUser(body);
 };
 
-export const loginController: RequestHandler = async req => {
+export const loginController: RequestHandler = async (req) => {
   const { context, userAgent, ip } = req.app.locals;
   const { logic } = context;
   const { body } = req;
@@ -19,17 +19,21 @@ export const loginController: RequestHandler = async req => {
     user: body,
     sessionData: {
       ip,
-      userAgent
-    }
+      userAgent,
+    },
   });
   if (isEmpty(result)) {
     throw new BadRequest("Username or password are incorrect.");
   }
 
-  return { success: true, userId: result?.id };
+  return {
+    success: true,
+    userId: result?.user.id,
+    sessionId: result?.session?.id,
+  };
 };
 
-export const getUserController: RequestHandler = async req => {
+export const getUserController: RequestHandler = async (req) => {
   const { context } = req.app.locals;
   const { logic } = context;
   const { params } = req;
@@ -44,14 +48,14 @@ export const getUserController: RequestHandler = async req => {
   return rest;
 };
 
-export const getOnlineUsersController: RequestHandler = async req => {
+export const getOnlineUsersController: RequestHandler = async (req) => {
   const { context } = req.app.locals;
   const { logic } = context;
 
   return logic.user.getOnlineUsers();
 };
 
-export const logoutController: RequestHandler = async req => {
+export const logoutController: RequestHandler = async (req) => {
   const { context } = req.app.locals;
   const { logic } = context;
   const { body } = req;

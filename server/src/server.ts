@@ -1,5 +1,6 @@
 import bodyParser from "body-parser";
 import express from "express";
+import cors from "cors";
 import { Router } from "express-serve-static-core";
 import _ from "lodash";
 import { createConnection } from "typeorm";
@@ -13,8 +14,8 @@ export async function initDatabase() {
   const dbConf = _.extend(settings.db);
 
   return createConnection({
-    ...dbConf
-  }).catch(error => {
+    ...dbConf,
+  }).catch((error) => {
     console.error("Failed to connect to MySql: ", error);
     process.exit(1);
   });
@@ -22,6 +23,7 @@ export async function initDatabase() {
 
 export async function runServer(port: number) {
   const app = express();
+  app.use(cors());
   app.use(bodyParser.json());
   app.set("trust proxy", true);
   const router: Router = express.Router();
