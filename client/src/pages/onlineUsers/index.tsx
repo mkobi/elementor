@@ -23,6 +23,7 @@ const OnlineUsersPage = (props: any) => {
     currentUserData,
     lastFetchTime,
   } = props;
+
   return (
     <div className={"online-users-page"}>
       <Modal
@@ -100,7 +101,7 @@ export default compose(
           setIsModalOpen(true);
           const formattedRegistrationTime = moment(
             result.data?.registrationTime
-          ).format();
+          ).format("dddd, MMMM Do YYYY, h:mm a");
           setCurrentUserData({ ...result.data, formattedRegistrationTime });
         })
         .catch((error) => showNotification(error?.response?.message));
@@ -124,7 +125,10 @@ export default compose(
     componentDidMount() {
       const { getOnlineUsers }: any = this.props;
       getOnlineUsers();
-      console.log("*** process.env.REACT_APP_ONLINE_USERS_REFRESH_INTERVAL: ", process.env);
+      console.log(
+        "*** process.env.REACT_APP_ONLINE_USERS_REFRESH_INTERVAL: ",
+        process.env
+      );
       setInterval(getOnlineUsers, 10000);
     },
   })

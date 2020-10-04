@@ -57,17 +57,18 @@ export class UserLogic {
       .leftJoinAndSelect("session.user", "user")
       .getOne();
 
-    const sessions = await this.userRepo
-      .createQueryBuilder("user")
-      .leftJoinAndSelect("user.sessions", "session")
-      .getMany();
-
     if (isEmpty(result)) {
       return undefined;
     }
 
+    const user = await this.userRepo
+      .createQueryBuilder("user")
+      .where({ id: result?.user?.id })
+      .leftJoinAndSelect("user.sessions", "session")
+      .getOne();
+
     const formattedResult = this.extractSessionData(result);
-    return { ...formattedResult, sessionsCount: sessions.length };
+    return { ...formattedResult, sessionsCount: user?.sessions?.length };
   }
 
   public async getOnlineUsers() {

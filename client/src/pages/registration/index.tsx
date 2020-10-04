@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
-import { compose, withHandlers } from "recompose";
-import { withRouter } from "react-router-dom";
-import "./registration.less";
-import { user } from "../../services";
-import Login from "../../components/login";
 import { Button, notification } from "antd";
+import { NotificationApi } from "antd/lib/notification";
+import React, { useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import { compose, withHandlers } from "recompose";
+import Login from "../../components/login";
+import { user } from "../../services";
+import "./registration.less";
 
 const RegistrationPage = (props: any) => {
   useEffect(() => {
@@ -27,23 +28,30 @@ const RegistrationPage = (props: any) => {
 export default compose(
   withRouter,
   withHandlers({
-    showNotification: (props: any) => (notice: any) => {
+    showErrorNotification: (props: any) => (notice: any) => {
       notification.warning({
         message: "Something went wrong!",
         description: notice?.response?.data || "try again later",
       });
     },
+    showSuccessNotification: (props: any) => (message: any) => {
+      notification.success({
+        message: "Success!",
+        description: message,
+      });
+    },
   }),
   withHandlers({
     onSubmit: (props: any) => (username: string, password: string) => {
-      const { history, showNotification } = props;
+      const { history, showSuccessNotification, showErrorNotification } = props;
 
       user
         .register({ username, password })
         .then(() => {
+          showSuccessNotification("User registered successfully!");
           history.push("/");
         })
-        .catch((error) => showNotification(error));
+        .catch((error) => showErrorNotification(error));
     },
   })
 )(RegistrationPage);
