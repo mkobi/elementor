@@ -1,4 +1,4 @@
-import { isEmpty, last } from "lodash";
+import { isEmpty } from "lodash";
 import { RequestHandler } from "../handlers/asyncHandler";
 import { BadRequest } from "../middlewares/errorHandler";
 
@@ -23,7 +23,7 @@ export const loginController: RequestHandler = async req => {
     }
   });
   if (isEmpty(result)) {
-    throw new BadRequest("User or Password are incorrect.");
+    throw new BadRequest("Username or password are incorrect.");
   }
 
   return { success: true, userId: result?.id };
@@ -48,13 +48,13 @@ export const getOnlineUsersController: RequestHandler = async req => {
   const { context } = req.app.locals;
   const { logic } = context;
 
-  const result = await logic.user.getOnlineUsers();
+  return logic.user.getOnlineUsers();
+};
 
-  if (isEmpty(result)) {
-    throw new BadRequest("No matching user for this id.");
-  }
+export const logoutController: RequestHandler = async req => {
+  const { context } = req.app.locals;
+  const { logic } = context;
+  const { body } = req;
 
-  const { id, ...rest } = result;
-
-  return rest;
+  return logic.user.logoutUser(body);
 };

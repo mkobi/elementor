@@ -23,7 +23,7 @@ export async function initDatabase() {
 export async function runServer(port: number) {
   const app = express();
   app.use(bodyParser.json());
-  app.set('trust proxy', true)
+  app.set("trust proxy", true);
   const router: Router = express.Router();
   router.use(contextCreator);
 
@@ -42,6 +42,8 @@ export async function runServer(port: number) {
     "/onlineUsers",
     asyncHandler(userControllers.getOnlineUsersController)
   );
+
+  router.post("/logout", asyncHandler(userControllers.logoutController));
 
   router.use(errorHandlerMiddleware);
 

@@ -1,5 +1,5 @@
-import { last } from "lodash";
 import { RequestHandler } from "express";
+import { last } from "lodash";
 import { Logic } from "../logic";
 
 export const contextCreator: RequestHandler = (req, res, next) => {

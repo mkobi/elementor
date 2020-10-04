@@ -1,8 +1,8 @@
 import { first, isEmpty } from "lodash";
 import { getRepository } from "typeorm";
-import { User } from "../../model/entity/User";
 import { Session } from "../../model/entity/Session";
-import { AuthenticateUserInput, UserInput } from "./types";
+import { User } from "../../model/entity/User";
+import { AuthenticateUserInput, LogoutUserInput, UserInput } from "./types";
 
 export class UserLogic {
   private userRepo;
@@ -48,6 +48,13 @@ export class UserLogic {
       }));
   }
 
+  public async logoutUser(data: LogoutUserInput) {
+    const { userId, sessionId } = data;
+
+    sessionId
+      ? this.sessionRepo.update(sessionId, { isOnline: false })
+      : this.sessionRepo.update({ userId }, { isOnline: false });
+  }
   private async saveUserSession(data: AuthenticateUserInput): Promise<void> {
     const {
       user,

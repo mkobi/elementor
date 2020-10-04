@@ -9,3 +9,8 @@ export interface AuthenticateUserInput {
     userAgent?: string;
   };
 }
+
+export interface LogoutUserInput {
+  userId: string;
+  sessionId?: string;
+}

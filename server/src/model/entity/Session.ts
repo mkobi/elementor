@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -33,5 +34,9 @@ export class Session extends BaseEntity {
     type => User,
     user => user.sessions
   )
+  @JoinColumn({ name: "userId" })
   public user: User;
+
+  @Column()
+  public userId: string;
 }
