@@ -3,14 +3,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
-import { Session } from "./Session";
+import { User } from "./User";
 
-@Entity({ name: "users" })
-export class User extends BaseEntity {
+@Entity({ name: "sessions" })
+export class Session extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   public id: string;
 
@@ -21,14 +21,17 @@ export class User extends BaseEntity {
   public updatedAt: Date;
 
   @Column()
-  public username: string;
+  public ip: string;
 
   @Column()
-  public password: string;
+  public userAgent: string;
 
-  @OneToMany(
-    type => Session,
-    session => session.user
+  @Column({ nullable: true })
+  public isOnline: boolean;
+
+  @ManyToOne(
+    type => User,
+    user => user.sessions
   )
-  public sessions: Session[];
+  public user: User;
 }

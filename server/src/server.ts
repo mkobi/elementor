@@ -23,6 +23,7 @@ export async function initDatabase() {
 export async function runServer(port: number) {
   const app = express();
   app.use(bodyParser.json());
+  app.set('trust proxy', true)
   const router: Router = express.Router();
   router.use(contextCreator);
 
@@ -32,7 +33,15 @@ export async function runServer(port: number) {
   );
 
   router.post("/login", asyncHandler(userControllers.loginController));
-  router.get("/getUserData/:id", asyncHandler(userControllers.getUserController));
+  router.get(
+    "/getUserData/:id",
+    asyncHandler(userControllers.getUserController)
+  );
+
+  router.get(
+    "/onlineUsers",
+    asyncHandler(userControllers.getOnlineUsersController)
+  );
 
   router.use(errorHandlerMiddleware);
 

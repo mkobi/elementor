@@ -1,8 +1,8 @@
-import { isEmpty } from "lodash";
+import { isEmpty, last } from "lodash";
 import { RequestHandler } from "../handlers/asyncHandler";
 import { BadRequest } from "../middlewares/errorHandler";
 
-export const registerUserController: RequestHandler = async (req, res) => {
+export const registerUserController: RequestHandler = async req => {
   const { context } = req.app.locals;
   const { logic } = context;
   const { body } = req;
@@ -10,11 +10,18 @@ export const registerUserController: RequestHandler = async (req, res) => {
   return logic.user.registerUser(body);
 };
 
-export const loginController: RequestHandler = async (req, res) => {
-  const { context } = req.app.locals;
+export const loginController: RequestHandler = async req => {
+  const { context, userAgent, ip } = req.app.locals;
   const { logic } = context;
   const { body } = req;
-  const result = await logic.user.authenticateUser(body);
+
+  const result = await logic.user.authenticateUser({
+    user: body,
+    sessionData: {
+      ip,
+      userAgent
+    }
+  });
   if (isEmpty(result)) {
     throw new BadRequest("User or Password are incorrect.");
   }
@@ -22,11 +29,26 @@ export const loginController: RequestHandler = async (req, res) => {
   return { success: true, userId: result?.id };
 };
 
-export const getUserController: RequestHandler = async (req, res) => {
+export const getUserController: RequestHandler = async req => {
   const { context } = req.app.locals;
   const { logic } = context;
   const { params } = req;
   const result = await logic.user.authenticateUser(params);
+
+  if (isEmpty(result)) {
+    throw new BadRequest("No matching user for this id.");
+  }
+
+  const { id, ...rest } = result;
+
+  return rest;
+};
+
+export const getOnlineUsersController: RequestHandler = async req => {
+  const { context } = req.app.locals;
+  const { logic } = context;
+
+  const result = await logic.user.getOnlineUsers();
 
   if (isEmpty(result)) {
     throw new BadRequest("No matching user for this id.");
