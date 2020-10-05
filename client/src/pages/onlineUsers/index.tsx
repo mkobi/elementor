@@ -125,10 +125,6 @@ export default compose(
     componentDidMount() {
       const { getOnlineUsers }: any = this.props;
       getOnlineUsers();
-      console.log(
-        "*** process.env.REACT_APP_ONLINE_USERS_REFRESH_INTERVAL: ",
-        process.env
-      );
       setInterval(getOnlineUsers, 10000);
     },
   })
