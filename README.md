@@ -20,7 +20,7 @@ This would run both the server container and the MySql DB (First time could take
 - localhost server port: **5050**
 - MySql DB port: **3306** 
 
-Here you can import the [Postman collection in order to test the REST API](https://www.getpostman.com/collections/d787c42e292106ac07f5)
+Here you can import the [Postman collection in order to test the REST API](https://www.getpostman.com/collections/d787c42e292106ac07f5) (Copy the content and import as collection)
 > **_NOTE_**: All of the ports can be overridden either by the orchestrator (_e.g_: `Kubernetes`), environment variables, or by changing the `docker-compose.yml` file
 
 ___________________________________________________
