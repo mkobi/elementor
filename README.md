@@ -14,13 +14,13 @@ ___________________________________________________
 and then:
 #### `yarn up` or `npm run up`
 
-This would run both the server container and the MySql DB. <br />
+This would run both the server container and the MySql DB (First time could take a while).<br />
 
 #### Ports:
 - localhost server port: **5050**
 - MySql DB port: **3306** 
 
-> **_NOTE_**: All of the port can be overridden either by the orchestrator (e.g: Kubernetes) environment variables or by changing the `docker-compose.yml` file
+> **_NOTE_**: All of the ports can be overridden either by the orchestrator (e.g: Kubernetes) environment variables or by changing the `docker-compose.yml` file
 
 ___________________________________________________
 ## Client: (in the `/client` directory):
