@@ -20,7 +20,7 @@ This would run both the server container and the MySql DB (First time could take
 - localhost server port: **5050**
 - MySql DB port: **3306** 
 
-> **_NOTE_**: All of the ports can be overridden either by the orchestrator (e.g: Kubernetes) environment variables or by changing the `docker-compose.yml` file
+> **_NOTE_**: All of the ports can be overridden either by the orchestrator (_e.g_: `Kubernetes`), environment variables, or by changing the `docker-compose.yml` file
 
 ___________________________________________________
 ## Client: (in the `/client` directory):
