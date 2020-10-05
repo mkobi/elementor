@@ -1,4 +1,4 @@
-## Elementor - Team Lead Code Interview 
+# Elementor - Team Lead Code Interview 
 
 I chose to implement this using `Node.js + Typescript` in the backend, and `React` in the frontend. 
 
