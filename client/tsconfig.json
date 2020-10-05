@@ -13,13 +13,17 @@
     "esModuleInterop": true,
     "sourceRoot": "src",
     "preserveSymlinks": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "noEmit": true
   },
   "exclude": [
@@ -28,5 +32,9 @@
     "src/**/__mocks__",
     "src/serviceWorker.ts"
   ],
-  "include": ["src/**/*.json", "src/**/*.ts", "src/**/*.tsx"]
+  "include": [
+    "src/**/*.json",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
 }
