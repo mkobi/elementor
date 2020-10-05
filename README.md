@@ -7,7 +7,7 @@ This means that you'd have to have docker engine on your machine in order to run
 
 **It's simple though!** simply run the following steps: 
 ___________________________________________________
-## Server: (in the `/server` directory):
+### Server: (in the `/server` directory):
 #### `yarn` or `npm install`
 and then:
 #### `yarn up` or `npm run up`
