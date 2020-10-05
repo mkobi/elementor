@@ -1,4 +1,3 @@
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import _ from "lodash";
 import React from "react";

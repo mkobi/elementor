@@ -1,5 +1,4 @@
 import { Button, notification } from "antd";
-import { NotificationApi } from "antd/lib/notification";
 import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { compose, withHandlers } from "recompose";

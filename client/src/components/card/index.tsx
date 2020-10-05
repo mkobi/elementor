@@ -1,8 +1,5 @@
 import React from "react";
-import moment from "moment";
-import { compose, withHandlers, lifecycle, withState } from "recompose";
-import { Button, Tooltip } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { compose, withHandlers } from "recompose";
 import "./card.less";
 import TimeReference from "../timeReference";
 
@@ -15,8 +12,6 @@ interface PropsInterface {
 
 const Card = (props: PropsInterface) => {
   const { username, ip, sessionStartTime, handleClick } = props;
-  const formattedTime = moment(sessionStartTime).format("HH:mm");
-  const relativeTime = moment(sessionStartTime).fromNow();
 
   return (
     <div className={"card"}>

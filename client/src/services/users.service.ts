@@ -1,5 +1,7 @@
 import axios from "axios";
-const SERVER_URL = "http://localhost:5050";
+import settings from "../config/settings";
+
+const SERVER_URL = settings?.serverUrl;
 const HEADERS = {
   "Content-Type": "application/json",
 };

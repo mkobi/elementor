@@ -1,4 +1,3 @@
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import React from "react";
 import { compose, withHandlers } from "recompose";

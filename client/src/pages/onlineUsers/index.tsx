@@ -9,6 +9,7 @@ import Logout from "../../components/logout";
 import Card from "../../components/card";
 import Field from "../../components/field";
 import TimeReference from "../../components/timeReference";
+import settings from "../../config/settings";
 
 const OnlineUsersPage = (props: any) => {
   useEffect(() => {
@@ -125,7 +126,7 @@ export default compose(
     componentDidMount() {
       const { getOnlineUsers }: any = this.props;
       getOnlineUsers();
-      setInterval(getOnlineUsers, 10000);
+      setInterval(getOnlineUsers, settings.onlineUsersFetchInterval);
     },
   })
 )(OnlineUsersPage);

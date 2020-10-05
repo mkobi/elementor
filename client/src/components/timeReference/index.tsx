@@ -1,7 +1,6 @@
 import React from "react";
 import moment from "moment";
 import { compose } from "recompose";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import "./time-reference.less";
 
 interface PropsInterface {

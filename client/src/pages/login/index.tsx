@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { compose, lifecycle, withHandlers } from "recompose";
-import { withRouter } from "react-router-dom";
 import { Button, notification } from "antd";
-import "./login.less";
-import { user } from "../../services";
+import React, { useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import { compose, lifecycle, withHandlers } from "recompose";
 import Login from "../../components/login";
+import { user } from "../../services";
+import "./login.less";
 
 const List = (props: any) => {
   useEffect(() => {
@@ -67,5 +67,5 @@ export default compose(
       const { history } = props;
       history.push("/registration");
     },
-  })
+  }),
 )(List);
